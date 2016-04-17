@@ -10,8 +10,9 @@ import (
 )
 
 type apiResponse struct {
-	Count  int             `json:"count"`
-	Tweets []twitter.Tweet `json:"tweets"`
+	Version string          `json:"version"`
+	Count   int             `json:"count"`
+	Tweets  []twitter.Tweet `json:"tweets"`
 }
 
 func StartApiServer(c config) {
@@ -26,9 +27,11 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 	tweets := GetTweets()
 
 	response := apiResponse{
-		Count:  len(tweets),
-		Tweets: tweets,
+		Version: Version,
+		Count:   len(tweets),
+		Tweets:  tweets,
 	}
 
+	w.Header().Set("X-API-Version", Version)
 	json.NewEncoder(w).Encode(response)
 }

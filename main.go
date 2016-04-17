@@ -7,6 +7,10 @@ import (
 	"github.com/tantalic/envconfig"
 )
 
+const (
+	Version = "1.0.0"
+)
+
 type config struct {
 	// Twitter Timeline
 	Username   string `envconfig:"USERNAME" required:"true"`
