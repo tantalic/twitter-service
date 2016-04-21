@@ -8,13 +8,14 @@ import (
 )
 
 const (
-	Version = "1.0.1"
+	Version = "2.0.0"
 )
 
 type config struct {
 	// Twitter Timeline
 	Username   string `envconfig:"USERNAME" required:"true"`
 	TweetCount int    `envconfig:"TWEET_COUNT" default:"10"`
+	Timeline   string `envconfig:"TIMELINE" default:"home"`
 
 	// API Server
 	Host string `envconfig:"HOST" default:""`
@@ -34,7 +35,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	go UpdateUserTimeline(c)
+	switch c.Timeline {
+	case "home":
+		go UpdateHomeTimeline(c)
+	case "user":
+		go UpdateUserTimeline(c)
+	}
+
 	StartApiServer(c)
 }
 

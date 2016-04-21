@@ -15,6 +15,38 @@ var (
 
 type tweetHandlerFunc func(tweet *twitter.Tweet)
 
+func UpdateUserTimeline(c config) {
+	client := newTwitterClient(c)
+
+	latestTweets, err := fetchLatestUserTweets(c.Username, c.TweetCount, client)
+	if err != nil {
+		log.Printf("Error fetching latest tweets (%v)", err)
+	}
+
+	appendTweets(latestTweets, c.TweetCount)
+
+	streamNewTweets(client, "user", func(tweet *twitter.Tweet) {
+		log.Printf("Recieved new tweet: %s\n", tweet.IDStr)
+		appendTweets([]twitter.Tweet{*tweet}, c.TweetCount)
+	})
+}
+
+func UpdateHomeTimeline(c config) {
+	client := newTwitterClient(c)
+
+	latestTweets, err := fetchLatestHomeTweets(c.TweetCount, client)
+	if err != nil {
+		log.Printf("Error fetching latest tweets (%v)", err)
+	}
+
+	appendTweets(latestTweets, c.TweetCount)
+
+	streamNewTweets(client, "followings", func(tweet *twitter.Tweet) {
+		log.Printf("Recieved new tweet: %s\n", tweet.IDStr)
+		appendTweets([]twitter.Tweet{*tweet}, c.TweetCount)
+	})
+}
+
 func GetTweets() []twitter.Tweet {
 	tweetsMutex.RLock()
 	defer tweetsMutex.RUnlock()
@@ -22,30 +54,8 @@ func GetTweets() []twitter.Tweet {
 	return tweets
 }
 
-func UpdateUserTimeline(c config) {
-	client := newTwitterClient(c)
-
-	latestTweets, err := fetchLatestTweets(c.Username, c.TweetCount, client)
-	if err != nil {
-		log.Printf("Error fetching latest tweets (%v)", err)
-	}
-
-	tweetsMutex.Lock()
-	tweets = latestTweets
-	tweetsMutex.Unlock()
-
-	streamNewTweets(client, func(tweet *twitter.Tweet) {
-		tweetsMutex.Lock()
-		tweets = append([]twitter.Tweet{*tweet}, tweets[:c.TweetCount-1]...)
-		tweetsMutex.Unlock()
-
-		log.Printf("Recieved new tweet: %s\n", tweet.IDStr)
-	})
-
-}
-
-func fetchLatestTweets(username string, count int, client *twitter.Client) ([]twitter.Tweet, error) {
-	log.Println("Fetching latest tweets from REST API")
+func fetchLatestUserTweets(username string, count int, client *twitter.Client) ([]twitter.Tweet, error) {
+	log.Println("Fetching latest user tweets from REST API")
 
 	latestTweets, _, err := client.Timelines.UserTimeline(&twitter.UserTimelineParams{
 		ScreenName:      username,
@@ -59,7 +69,19 @@ func fetchLatestTweets(username string, count int, client *twitter.Client) ([]tw
 	return latestTweets, err
 }
 
-func streamNewTweets(client *twitter.Client, tweetHandler tweetHandlerFunc) {
+func fetchLatestHomeTweets(count int, client *twitter.Client) ([]twitter.Tweet, error) {
+	log.Println("Fetching latest home tweets from REST API")
+
+	latestTweets, _, err := client.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
+		Count: count,
+	})
+
+	log.Printf("Fetched %d tweets", len(latestTweets))
+
+	return latestTweets, err
+}
+
+func streamNewTweets(client *twitter.Client, with string, tweetHandler tweetHandlerFunc) {
 	demux := twitter.NewSwitchDemux()
 	demux.Tweet = tweetHandler
 
@@ -67,7 +89,7 @@ func streamNewTweets(client *twitter.Client, tweetHandler tweetHandlerFunc) {
 
 	userParams := &twitter.StreamUserParams{
 		StallWarnings: twitter.Bool(true),
-		With:          "user",
+		With:          with,
 		Language:      []string{"en"},
 	}
 	stream, err := client.Streams.User(userParams)
@@ -76,6 +98,14 @@ func streamNewTweets(client *twitter.Client, tweetHandler tweetHandlerFunc) {
 	}
 
 	demux.HandleChan(stream.Messages)
+}
+
+func appendTweets(newTweets []twitter.Tweet, maxLength int) {
+	tweetsMutex.Lock()
+	defer tweetsMutex.Unlock()
+
+	tweets = append(newTweets, tweets...)
+	tweets = tweets[:maxLength]
 }
 
 func newTwitterClient(c config) *twitter.Client {
