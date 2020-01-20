@@ -10,7 +10,7 @@ Configuraton is handled through the following environment varibles:
 | Environment Variable |                                        Description                                         | Default Value |
 |----------------------|--------------------------------------------------------------------------------------------|---------------|
 | `USERNAME`           | The twitter user name for the timeline. Must match the twitter credentials. (**Required**) |               |
-| `TWEET_COUNT`        | The number of tweets to keep.                                                              | `3000`        |
+| `TWEET_COUNT`        | The number of tweets to keep.                                                              | `10`          |
 | `TIMELINE`           | The twitter timeline to include. Either `"user"` or `"home"`.                              | `"home"`      |
 
 ### API Configuration
