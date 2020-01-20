@@ -1,0 +1,14 @@
+github.com/cenkalti/backoff v1.0.0 h1:2XeuDgvPv/6QDyzIuxb6n36ADVocyqTLlOSpYBGYtvM=
+github.com/cenkalti/backoff v1.0.0/go.mod h1:90ReRw6GdpyfrHakVjL/QHaoyV4aDUVVkXQJJJ3NXXM=
+github.com/dghubble/go-twitter v0.0.0-20160410022101-6fd9c6878dbb h1:Q77lUAvQvv4LuGKkZbr186Dp9qJyoBK7Biwus2FC4To=
+github.com/dghubble/go-twitter v0.0.0-20160410022101-6fd9c6878dbb/go.mod h1:6beqTZaXeBPti9pDBcBEqxfJc7uCbSafqZPRDPQOKoM=
+github.com/dghubble/oauth1 v0.3.1-0.20151212233547-b976e493be28 h1:EtCmvEze26IXKqTQWIScJmlVRCwfCvOY/XhOyc5bDcQ=
+github.com/dghubble/oauth1 v0.3.1-0.20151212233547-b976e493be28/go.mod h1:8V8BMV9DJRREZx/lUaHtrs7GUMXpzbMqJxINCasxYug=
+github.com/dghubble/sling v0.0.0-20160410021724-00aa3a32dcef h1:lK58PX8dtXNRr9iKu7f3C+wAH5pqbLT6A73IUT2J9Pw=
+github.com/dghubble/sling v0.0.0-20160410021724-00aa3a32dcef/go.mod h1:ZcPRuLm0qrcULW2gOrjXrAWgf76sahqSyxXyVOvkunE=
+github.com/google/go-querystring v0.0.0-20151028211038-2a60fc2ba6c1 h1:ULA7QZ5KGgwOBeBBCA7Xyv96fmriEfhs0D2KDRslTd8=
+github.com/google/go-querystring v0.0.0-20151028211038-2a60fc2ba6c1/go.mod h1:odCYkC5MyYFN7vkCjXpyrEuKhc/BUO6wN/zVPAxq5ck=
+github.com/tantalic/envconfig v1.0.1-0.20160316193706-cea086319492 h1:T6JJeygvQaNegCZ1XYjvRZV591N3VfYzC4bXFE5yQB8=
+github.com/tantalic/envconfig v1.0.1-0.20160316193706-cea086319492/go.mod h1:LMKOXq/0BF2ET61viSZmWYemYUFwkeB5Qn8wYcVTKHg=
+golang.org/x/net v0.0.0-20160107234821-415f1917e1db h1:n/WB0S15LrDnDwVY5+LJszJM4Q8ckqg9rzoLhLc54k8=
+golang.org/x/net v0.0.0-20160107234821-415f1917e1db/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
