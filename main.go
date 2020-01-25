@@ -20,7 +20,7 @@ type config struct {
 
 	// API Server
 	Host string `envconfig:"HOST" default:""`
-	Port int    `envconfig:"PORT" default:"80"`
+	Port int    `envconfig:"PORT" default:"3000"`
 
 	// Twitter Credentials
 	ConsumerKey    string `envconfig:"CONSUMER_KEY" required:"true"`

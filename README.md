@@ -17,7 +17,7 @@ Configuraton is handled through the following environment varibles:
 |  Environment Variable |         Description         | Default Value |
 |-----------------------|-----------------------------|---------------|
 | `HOST`                | The host to listen on.      | `""` (all)    |
-| `PORT`                | The HTTP port to listen on. | `80`          |
+| `PORT`                | The HTTP port to listen on. | `3000`        |
 
 ### Twitter OAuth Credentials
 | Environment Variable |                    Description                    |

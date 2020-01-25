@@ -29,6 +29,6 @@ RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 
 COPY --from=builder /src/twitter-service /usr/local/bin/twitter-service
 
-EXPOSE 80
+EXPOSE 3000
 USER nobody
 CMD /usr/local/bin/twitter-service
