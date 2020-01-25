@@ -1,4 +1,4 @@
-module github.com/tantalic/twitter-service
+module tantalic.com/twitter-service
 
 go 1.13
 
