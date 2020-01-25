@@ -15,12 +15,17 @@ type apiResponse struct {
 	Tweets  []twitter.Tweet `json:"tweets"`
 }
 
-func StartApiServer(c config) {
+func StartApiServer(c config) error {
 	http.HandleFunc("/", apiHandler)
 
 	addr := fmt.Sprintf("%s:%d", c.Host, c.Port)
+	err := http.ListenAndServe(addr, nil)
+	if err != nil {
+		return err
+	}
+
 	log.Printf("Listening on %s\n", addr)
-	http.ListenAndServe(addr, nil)
+	return nil
 }
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {

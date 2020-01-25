@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/tantalic/envconfig"
@@ -42,7 +43,10 @@ func main() {
 		go UpdateUserTimeline(c)
 	}
 
-	StartApiServer(c)
+	err = StartApiServer(c)
+	if err != nil {
+		log.Printf("Unable to start http server: %s\n", err)
+	}
 }
 
 func getConfig() (config, error) {
